@@ -1,0 +1,147 @@
+```
+Working with files and directories
+```
+pwd :Shows where you are
+
+mkdir ~/bioc6243 : this command creates a new file or directory
+
+mkdir ~/bioc6243/project-linux : this creates a subsection within the directory
+
+cd ~/bioc6243/project-linux : this moves into project directory
+
+touch file.txt : this generates an empty file called file.txt
+
+ls -ltr : lists file in current format
+
+cp file.txt file_copy.txt : creates a copy of file.txt and stores as file_copy.txt
+
+ls -ltr
+
+rm /tmp/file.txt      : deletes file.txt
+-r ~/mybioc6243       : deletes the file directory
+
+```
+viewing and editing text files
+```
+cd ~/mybioc6243/project-linux     : changes the current working directory to the project folder
+
+cp /groups/mybioc6243_0/data/fastq/toy.fastq .        : copy a fastq file into the project directory. The dot represents the current directory
+
+ls -ltr
+
+cat toy.fastq : prints the contents of toy.fastq to the terminal
+
+less toy.fastq : opens file in scrollable view
+
+head -20 toy.fastq : shows the first 20 entries. Editable
+
+nano file.txt : opens file in nano text editor
+
+
+tail -20 toy.fastq : shows the last 20 entries. editable as well.
+
+ls -ltr
+
+```
+searching, pipes, and redirection
+```
+cd ~/mybioc6243/project-linux : changes current directory to project-linux
+
+grep "mistake" file.txt : highlights the word mistake in file.txt
+
+grep "gene" file.txt : highlights the word gene in file.txt
+
+echo "hello" > file.txt : Redirectes the word hello into file.txt and deletes exisitng content
+
+echo "world" >> file.txt : appends the word world into file.txt without deleting exisiting content.
+
+cat file.txt | grep "hello" cat shows the contents of file.txt, pipe transfers that output to the next command which is grep "hello". the output of this would only be hello; the other entries in the file are ignored
+
+ls | grep ".txt" : lists files then the output is transferred to the next command which is grep. This means that only files ending with .txt are highlighted.
+
+```
+permssions and processes
+```
+$ cd ~/mybioc6243/project-linux  
+
+$ ls -l    
+
+$ chmod 755 file.txt : changes the permissions of file.txt
+
+```
+bioinformatics project layout. a directory named mybioc6243 is created and sub-directories are created within it .
+```
+
+$ cd ~/
+
+$ mkdir -p ~/mybioc6243/project-rnaseq/data
+
+$ mkdir -p ~/mybioc6243/project-rnaseq/results
+
+$ mkdir -p ~/mybioc6243/project-rnaseq/scripts
+
+$ mkdir -p ~/mybioc6243/project-rnaseq/logs
+
+$ cd ~/mybioc6243/project-rnaseq/
+
+$ ls -ltr
+
+```
+managing sequencing files
+```
+$ cd ~/mybioc6243/project-rnaseq/ : changes directory to project-rnaseq
+
+$ cp /groups/bioc6243_0/data/fastq/toy.fastq ./data/ : copies the fastaq file into the sub-directory data.
+
+$ ls -lh ./data : lists the contents of data in long format. -lh lists them in readable units (MB, KB)
+
+$ du -sh ./data : lists the disk usage of "data" sub directory and
+
+$ gzip -c ./data/toy.fastq > ./data/toy.fastq.gz : compresses the toy.fastq file and places into data sub-directory  
+
+$ ls -lh ./data : lists the files in data in a human readable format.
+
+
+```
+inspecting the bioinformatics files
+```
+$ cd ~/mybioc6243/project-rnaseq/    
+
+$ less ./data/toy.fastq
+
+$ zcat ./data/toy.fastq.gz    zcat outputs the contents of the compressed file without uncompressing it
+
+$ zcat ./data/toy.fastq.gz | grep "^@" | head    zcat shows the contents of the compressed file. grep selects lines starting with @ and head displays the first few headers
+
+$ zcat ./data/toy.fastq.gz | wc -l       counts the number of lines in the fastq file
+
+$ cd ~/mybioc6243/project-rnaseq/    changes directory
+
+$ head -1000 /groups/bioc6243_0/data/gtf/Homo_sapiens.GRCh37.75.gtf > ./data/toy.gtf        extracts the first 1000 lines from a large annotation file
+
+$ head -20 ./data/toy.gtf        views the first 20 entries
+
+$ grep ^"1" ./data/toy.gtf        filters lines that start with 1
+
+$ grep -v "^#" ./data/toy.gtf     -v grabs the lines that don't match the entry. Removes comment lines that begin with #.
+
+```
+Using the cerberus command center
+```
+$ cd ~/mybioc6243/project-rnaseq/      changes directory to project-rnaseq
+
+$ squeue       shows jobs currently running, queued, or finished    
+
+$ sinfo        shows the status of each node. shows whether they're active or not
+
+$ cp /groups/bioc6243_0/code/cerberus-test/README.  
+
+$ cp /groups/bioc6243_0/code/cerberus-test/fastq-parser.py ./scripts/    Copies the README file from the shared class code directory into the current project directory
+
+$ cp /groups/bioc6243_0/code/cerberus-test/slurm-test.sh ./scripts/    Copies a FASTQ parsing Python script into the local scripts/ subdirectory
+
+$ cd ./scripts/      changes directory
+
+$ cat slurm-test.sh    displays the contents of the slurm-test.sh
+
+$ sbatch slurm-test.sh    submits the batch job to the HPC. Returns a submission ID if its successful
