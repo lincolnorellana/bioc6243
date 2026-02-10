@@ -1,7 +1,7 @@
 ```
 Working with files and directories
 ```
-pwd :Shows where you are
+pwd : This means which directory you are
 
 mkdir ~/bioc6243 : this command creates a new file or directory
 
